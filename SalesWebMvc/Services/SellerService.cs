@@ -16,9 +16,17 @@ namespace SalesWebMvc.Services
             _context = context;
         }
 
+        //Retorno minha lista de vendedores cadastradas
         public List<Seller> FindAdll()
         {
             return _context.Seller.ToList();
+        }
+
+        //Insiro um vendedeor no banco
+        public void Insert(Seller obj)
+        {
+            _context.Add(obj);
+            _context.SaveChanges();
         }
     }
 }
