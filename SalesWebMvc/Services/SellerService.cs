@@ -28,5 +28,20 @@ namespace SalesWebMvc.Services
             _context.Add(obj);
             _context.SaveChanges();
         }
+
+        //Retorna o vendedor com o id passado por parametro
+        public Seller FindById(int id)
+        {
+            return _context.Seller.FirstOrDefault(obj => obj.Id == id);
+        }
+
+        /*Remove vendedor passando o id como parametro, removo o obj do dbset e depois
+          confirmo a alteração para o entity framework efetivar no banco de dados*/
+        public void Remove(int id)
+        {
+            var obj = _context.Seller.Find(id);
+            _context.Seller.Remove(obj);
+            _context.SaveChanges();
+        }
     }
 }
