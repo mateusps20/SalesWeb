@@ -46,6 +46,7 @@ namespace SalesWebMvc.Services
             _context.SaveChanges();
         }
 
+        //Update para o botão Edit na tela de vendedores
         public void Update(Seller obj)
         {
             if(!_context.Seller.Any(x => x.Id == obj.Id))
