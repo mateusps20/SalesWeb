@@ -29,6 +29,7 @@ namespace SalesWebMvc.Controllers
             return View(list);
         }
 
+        //Ação GET do meu botão Create new na tela de vendedores
         public IActionResult Create()
         {
             var departments = _departmentService.FindAll();
@@ -36,11 +37,18 @@ namespace SalesWebMvc.Controllers
             return View(viewModel);
         }
 
-        //Faço meu botão Create voltar a tela inicial após inserir no banco
+        //Ação POST do meu botão Create new na tela de vendedores, Faço meu botão Create voltar a tela inicial após inserir no banco
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Create(Seller seller)
         {
+            if (!ModelState.IsValid)
+            {
+                var departments = _departmentService.FindAll();
+                var viewModel = new SellerFormViewModel { Seller = seller, Departments = departments };
+                return View(viewModel);
+            }
+
             _sellerService.Insert(seller);
             return RedirectToAction(nameof(Index));
         }
@@ -112,7 +120,14 @@ namespace SalesWebMvc.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Edit(int id, Seller seller)
         {
-            if(id != seller.Id)
+            if (!ModelState.IsValid)
+            {
+                var departments = _departmentService.FindAll();
+                var viewModel = new SellerFormViewModel { Seller = seller, Departments = departments };
+                return View(viewModel);
+            }
+
+            if (id != seller.Id)
             {
                 return RedirectToAction(nameof(Error), new { message = "Id mismatch" });
             }
